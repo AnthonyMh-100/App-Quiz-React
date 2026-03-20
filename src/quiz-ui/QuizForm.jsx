@@ -12,7 +12,6 @@ export const QuizForm = ({ selectedOption, title, question, options, onClick }) 
 
       <Options>
         {options?.map((option, index) => {
-          const letter = String.fromCharCode(65 + index)
           const selected = option === selectedOption
 
           return (
@@ -22,7 +21,6 @@ export const QuizForm = ({ selectedOption, title, question, options, onClick }) 
               onClick={() => onClick(option)}
               $selected={selected}
               aria-pressed={selected}
-              data-letter={letter}
             >
               {option}
             </Option>
@@ -35,21 +33,17 @@ export const QuizForm = ({ selectedOption, title, question, options, onClick }) 
 
 const ContainerQuiz = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
   background: #ffffff;
-  border-radius: 22px;
-  padding: 34px 32px 28px;
+  border-radius: 18px;
+  padding: clamp(18px, 3vw, 32px);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  border: 1px solid rgba(99, 102, 241, 0.14);
+  gap: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.12);
   box-shadow:
-    0 22px 50px rgba(15, 23, 42, 0.10),
+    0 22px 50px rgba(15, 23, 42, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.65);
-
-  @media (max-width: 480px) {
-    padding: 24px 18px 20px;
-  }
 `
 
 const Header = styled.div`
@@ -57,6 +51,11 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `
 
 const Progress = styled.span`
@@ -70,7 +69,7 @@ const Progress = styled.span`
 `
 
 const Title = styled.h1`
-  font-size: 22px;
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 700;
   color: #1e293b;
   margin: 0;
@@ -78,7 +77,7 @@ const Title = styled.h1`
 `
 
 const Question = styled.p`
-  font-size: 16.5px;
+  font-size: clamp(14px, 1.5vw, 16px);
   color: #475569;
   text-align: left;
   margin: 4px 0 0;
@@ -91,12 +90,11 @@ const Options = styled.div`
 `
 
 const Option = styled.button`
-  position: relative;
-  padding: 14px 16px 14px 54px;
+  padding: 14px 16px;
   border-radius: 14px;
-  border: 1px solid ${({ $selected }) => ($selected ? 'rgba(99, 102, 241, 0.35)' : '#e5e7eb')};
-  background: ${({ $selected }) =>
-    $selected ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.10), rgba(59, 130, 246, 0.08))' : '#f9fafb'};
+  border: 1px solid
+    ${({ $selected }) => ($selected ? 'rgba(99, 102, 241, 0.38)' : '#e5e7eb')};
+  background: ${({ $selected }) => ($selected ? 'rgba(99, 102, 241, 0.10)' : '#ffffff')};
   color: #0f172a;
   font-size: 14px;
   font-weight: 600;
@@ -108,53 +106,14 @@ const Option = styled.button`
     background 0.16s ease,
     border-color 0.16s ease;
 
-  box-shadow: ${({ $selected }) =>
-    $selected ? '0 14px 26px rgba(99, 102, 241, 0.14)' : '0 8px 16px rgba(15, 23, 42, 0.05)'};
-
-  &::before {
-    content: attr(data-letter);
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: ${({ $selected }) => ($selected ? '#ffffff' : '#4f46e5')};
-    background: ${({ $selected }) =>
-      $selected ? 'linear-gradient(135deg, #6366f1, #818cf8)' : 'rgba(99, 102, 241, 0.10)'};
-    border: 1px solid rgba(99, 102, 241, 0.22);
-    box-shadow:
-      0 10px 20px rgba(99, 102, 241, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-
-  &::after {
-    content: ${({ $selected }) => ($selected ? "'✓'" : "''")};
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 22px;
-    height: 22px;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    font-size: 12px;
-    font-weight: 900;
-    color: #ffffff;
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
-    box-shadow: 0 10px 18px rgba(99, 102, 241, 0.22);
-  }
+  min-height: 48px;
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
+  word-break: break-word;
 
   &:hover {
     transform: translateY(-1px);
     background: ${({ $selected }) =>
-      $selected ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(59, 130, 246, 0.10))' : '#ffffff'};
+      $selected ? 'rgba(99, 102, 241, 0.12)' : '#f8fafc'};
     border-color: rgba(99, 102, 241, 0.28);
   }
 
